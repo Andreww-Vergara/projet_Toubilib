@@ -1,0 +1,21 @@
+meta {
+  name: 09 Honorer rdv passe
+  type: http
+  seq: 9
+}
+
+docs {
+  1re exécution : 200 (le RDV passe à HONORE en base).
+  Exécutions suivantes : 409, car un RDV honoré ne peut plus changer d'état.
+  Pour recommencer : UPDATE rdv SET status = 0 WHERE id = '5105e114-4299-338e-a389-bfa83f2109c4';
+}
+
+patch {
+  url: {{baseUrl}}/rdvs/{{rdvPasseId}}/honorer
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: in 200,409
+}

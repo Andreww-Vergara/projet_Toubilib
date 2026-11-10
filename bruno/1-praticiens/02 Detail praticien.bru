@@ -1,0 +1,16 @@
+meta {
+  name: 02 Detail praticien
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/praticiens/{{praticienId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.type: eq ressource
+}

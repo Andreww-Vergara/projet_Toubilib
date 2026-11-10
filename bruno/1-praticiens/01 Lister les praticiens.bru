@@ -1,0 +1,16 @@
+meta {
+  name: 01 Lister les praticiens
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/praticiens
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.type: eq collection
+}

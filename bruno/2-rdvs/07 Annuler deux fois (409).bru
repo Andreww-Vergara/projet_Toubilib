@@ -1,0 +1,15 @@
+meta {
+  name: 07 Annuler deux fois (409)
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/rdvs/{{rdvId}}/annuler
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 409
+}

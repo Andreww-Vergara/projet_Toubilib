@@ -1,0 +1,16 @@
+meta {
+  name: 06 Annuler rdv cree (200)
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{baseUrl}}/rdvs/{{rdvId}}/annuler
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.rendez_vous.etat: eq ANNULE
+}

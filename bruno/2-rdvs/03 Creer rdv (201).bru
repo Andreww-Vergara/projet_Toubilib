@@ -1,0 +1,42 @@
+meta {
+  name: 03 Creer rdv (201)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/rdvs
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "praticien_id": "{{praticienId}}",
+    "patient_id": "{{patientId}}",
+    "date_heure_debut": "{{dateRdv}}",
+    "motif_visite": "CO"
+  }
+}
+
+script:pre-request {
+  // Lundi prochain à une heure aléatoire (9:00 à 11:30, par pas de 30 min),
+  // pour pouvoir relancer la requête sans tomber sur un créneau déjà pris.
+  const d = new Date();
+  d.setDate(d.getDate() + ((8 - d.getDay()) % 7 || 7));
+  const heures = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30'];
+  const jour = d.toISOString().slice(0, 10);
+  bru.setVar('dateRdv', jour + ' ' + heures[Math.floor(Math.random() * heures.length)]);
+}
+
+script:post-response {
+  // On mémorise l'id du RDV créé pour les requêtes suivantes
+  if (res.status === 201) {
+    bru.setVar('rdvId', res.body.rendez_vous.id);
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.headers.location: isDefined
+}

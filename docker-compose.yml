@@ -1,0 +1,46 @@
+networks:
+  toubilib.net:
+    driver: bridge
+
+services:
+  # API Toubilib : prise de rendez-vous
+  api.toubilib:
+    build:
+      context: build
+      dockerfile: 8.5-cli.Dockerfile
+    ports:
+      - '7080:80'
+    volumes:
+      - ./app:/var/php
+    working_dir: /var/php
+    environment:
+         PHP_CLI_SERVER_WORKERS: 4
+    networks:
+      - toubilib.net
+    depends_on:
+      toubilib.db:
+        condition: service_healthy
+    command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
+
+  toubilib.db:
+    image: 'postgres:18.6'
+    env_file: ./toubilib.env
+    ports:
+      - '5532:5432'
+    networks:
+      - toubilib.net
+    volumes:
+      # Postgres exécute les .sql de ce dossier (ordre alphabétique) au 1er démarrage
+      - ./app/sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 3s
+      timeout: 3s
+      retries: 15
+
+  adminer:
+    image: adminer
+    ports:
+      - '8880:8080'
+    networks:
+      - toubilib.net

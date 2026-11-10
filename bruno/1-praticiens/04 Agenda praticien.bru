@@ -1,0 +1,21 @@
+meta {
+  name: 04 Agenda praticien
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/praticiens/{{praticienId}}/rdvs?debut={{jourRdvPasse}}&fin={{jourRdvPasse}}
+  body: none
+  auth: none
+}
+
+params:query {
+  debut: {{jourRdvPasse}}
+  fin: {{jourRdvPasse}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.type: eq collection
+}

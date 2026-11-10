@@ -1,0 +1,24 @@
+meta {
+  name: 04 Creer rdv meme creneau (409)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/rdvs
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "praticien_id": "{{praticienId}}",
+    "patient_id": "{{patientId}}",
+    "date_heure_debut": "{{dateRdv}}",
+    "motif_visite": "CS"
+  }
+}
+
+assert {
+  res.status: eq 409
+}

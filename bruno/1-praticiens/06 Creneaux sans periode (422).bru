@@ -1,0 +1,15 @@
+meta {
+  name: 06 Creneaux sans periode (422)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/praticiens/{{praticienId}}/creneaux
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 422
+}

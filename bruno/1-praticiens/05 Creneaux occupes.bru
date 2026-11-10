@@ -1,0 +1,21 @@
+meta {
+  name: 05 Creneaux occupes
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/praticiens/{{praticienId}}/creneaux?debut={{jourRdvPasse}}&fin={{jourRdvPasse}}
+  body: none
+  auth: none
+}
+
+params:query {
+  debut: {{jourRdvPasse}}
+  fin: {{jourRdvPasse}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.type: eq collection
+}

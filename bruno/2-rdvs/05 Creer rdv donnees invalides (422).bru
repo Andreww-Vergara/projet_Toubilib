@@ -1,0 +1,23 @@
+meta {
+  name: 05 Creer rdv donnees invalides (422)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/rdvs
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "praticien_id": "n-existe-pas",
+    "date_heure_debut": "31/12/2026",
+    "motif_visite": "C0"
+  }
+}
+
+assert {
+  res.status: eq 422
+}

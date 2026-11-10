@@ -1,0 +1,15 @@
+meta {
+  name: 10 Ignorer rdv futur (409)
+  type: http
+  seq: 10
+}
+
+patch {
+  url: {{baseUrl}}/rdvs/{{rdvId}}/ignorer
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 409
+}

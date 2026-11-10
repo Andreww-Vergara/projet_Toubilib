@@ -1,0 +1,15 @@
+meta {
+  name: 08 Annuler rdv passe (409)
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/rdvs/{{rdvPasseId}}/annuler
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 409
+}

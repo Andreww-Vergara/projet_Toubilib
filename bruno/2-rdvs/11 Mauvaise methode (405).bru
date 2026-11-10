@@ -1,0 +1,15 @@
+meta {
+  name: 11 Mauvaise methode (405)
+  type: http
+  seq: 11
+}
+
+delete {
+  url: {{baseUrl}}/rdvs/{{rdvPasseId}}
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 405
+}
